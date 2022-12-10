@@ -22,6 +22,7 @@ export default class DeviceStore {
         this._basketPrice = 0
         this._basket = []
         this._selectedType = {}
+        this._like = {}
         makeAutoObservable(this);
     }
 
@@ -72,6 +73,10 @@ export default class DeviceStore {
         this._basketPrice = price;
     }
 
+    setLike(device) {
+        this._like = device;
+    }
+
     get types() {
         return this._types;
     }
@@ -109,6 +114,10 @@ export default class DeviceStore {
     }
 
     get basketPrice() {
-        return this._basketPrice
+        return this._basketPrice;
+    }
+
+    get like() {
+        return this._like;
     }
 }

@@ -4,13 +4,11 @@ import {useNavigate} from "react-router-dom";
 import {DEVICE_ROUTE, STAR} from "../utils/consts";
 import "../styles/DeviceItem.css"
 import { Context } from '../index';
+import {observer} from "mobx-react-lite";
 
 
-const DeviceItem = ({device}) => {
+const DeviceItem = observer(({device}) => {
     const {devices} = useContext(Context)
-
-    const [state, setState] = useState(false);
-    const [like, setLike] = useState({})
 
     const navigate = useNavigate();
     return (
@@ -29,8 +27,10 @@ const DeviceItem = ({device}) => {
                     <div className='credit'>{(device.price / 12).toFixed(3)} ₽/мес</div>
                 </div>
                 <div className='buttons'>
-                    <button className={ !state?'notLiked':'liked'} onClick={(e) => 0}>
-                        { !state?
+                    <button className={ !(device.id === devices.like.id)?'notLiked':'liked'} onClick={() => {
+                        devices.setLike(device)
+                    }}>
+                        { !(device.id === devices.like.id)?
                             <img src={require('../images/like.png')} alt="fireSpot" className='likeIconOff'></img>
                         :
                             <img src={require('../images/like-clicked.png')} alt="fireSpot" className='likeIconOn'></img>
@@ -46,6 +46,6 @@ const DeviceItem = ({device}) => {
             </div>
         </Col>
     );
-};
+})
 
 export default DeviceItem;
