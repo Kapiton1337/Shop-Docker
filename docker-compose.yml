@@ -1,0 +1,27 @@
+services:
+  db:
+    image: postgres:14.1-alpine
+    volumes:
+      - ./data/db:/var/lib/postgresql@14/data
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_NAME=shopdb
+      - POSTGRES_DB=shopdb
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=12345
+  app:
+    build: ./backend
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./code:/backend
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./web:/frontend
